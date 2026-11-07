@@ -115,7 +115,7 @@ class RecordingPlayer:
         return action
 
 
-def episode(kind, seed, seat, teacher_factory, rows=None, record=None):
+def episode(kind, seed, seat, teacher_factory, rows=None, record=None, opponent_factory=Naive):
     """Play one episode with kind in seat against Naive. If rows is given, record teacher choices."""
     season = load_season_settings(ROOT, META)
     parameters = resolve_parameters(META, {} if season is None else season.parameters)
@@ -126,7 +126,7 @@ def episode(kind, seed, seat, teacher_factory, rows=None, record=None):
         factory = teacher_factory
     else:
         # We load the learner only for learner episodes. Teacher collection needs no saved model.
-        from agent import Agent
+        from learner_agent import Agent
 
         factory = Agent
 
@@ -138,7 +138,7 @@ def episode(kind, seed, seat, teacher_factory, rows=None, record=None):
         )
         for player in own
     }
-    players = {player: recorders[player] if player in recorders else Naive() for player in layout.players}
+    players = {player: recorders[player] if player in recorders else opponent_factory() for player in layout.players}
     # The season's time limits, or the environment's own where season.json sets none.
     step_limit = season.decision_limit_ms if season and season.decision_limit_ms else META.step_limit_ms
     game_limit = season.game_limit_ms if season and season.game_limit_ms else META.episode_limit_ms

@@ -1,0 +1,526 @@
+{
+  "epochs": 45,
+  "best_epoch": 31,
+  "best_validation_loss": 0.5361348269683011,
+  "stop_reason": "epoch limit reached",
+  "history": [
+    {
+      "epoch": 1,
+      "training_loss": 2.7086653985040035,
+      "validation_loss": 2.041203057990884
+    },
+    {
+      "epoch": 2,
+      "training_loss": 2.1018786948146553,
+      "validation_loss": 1.4303789836055827
+    },
+    {
+      "epoch": 3,
+      "training_loss": 1.768671407864962,
+      "validation_loss": 1.2136113137569067
+    },
+    {
+      "epoch": 4,
+      "training_loss": 1.5168214378821565,
+      "validation_loss": 1.0504432590502613
+    },
+    {
+      "epoch": 5,
+      "training_loss": 1.3400689560357053,
+      "validation_loss": 0.9632315039634705
+    },
+    {
+      "epoch": 6,
+      "training_loss": 1.2380473385361184,
+      "validation_loss": 0.9081974951726086
+    },
+    {
+      "epoch": 7,
+      "training_loss": 1.1673317380821675,
+      "validation_loss": 0.8718936072205598
+    },
+    {
+      "epoch": 8,
+      "training_loss": 1.104000404883179,
+      "validation_loss": 0.8211443564801846
+    },
+    {
+      "epoch": 9,
+      "training_loss": 1.0575597656353952,
+      "validation_loss": 0.7836554325976461
+    },
+    {
+      "epoch": 10,
+      "training_loss": 1.0102805915103286,
+      "validation_loss": 0.7587136800559062
+    },
+    {
+      "epoch": 11,
+      "training_loss": 0.9734879849274034,
+      "validation_loss": 0.7354700014276324
+    },
+    {
+      "epoch": 12,
+      "training_loss": 0.9415769888092721,
+      "validation_loss": 0.7072908040487541
+    },
+    {
+      "epoch": 13,
+      "training_loss": 0.9169575500645784,
+      "validation_loss": 0.695969043475277
+    },
+    {
+      "epoch": 14,
+      "training_loss": 0.8975765591904115,
+      "validation_loss": 0.7262027072456648
+    },
+    {
+      "epoch": 15,
+      "training_loss": 0.8699872104910954,
+      "validation_loss": 0.6834866904987479
+    },
+    {
+      "epoch": 16,
+      "training_loss": 0.8488191583253055,
+      "validation_loss": 0.6533441723517652
+    },
+    {
+      "epoch": 17,
+      "training_loss": 0.8300508945368225,
+      "validation_loss": 0.6235042967886295
+    },
+    {
+      "epoch": 18,
+      "training_loss": 0.8037958280494841,
+      "validation_loss": 0.6326248162197616
+    },
+    {
+      "epoch": 19,
+      "training_loss": 0.7834605279783884,
+      "validation_loss": 0.6130354471926419
+    },
+    {
+      "epoch": 20,
+      "training_loss": 0.7672249163407909,
+      "validation_loss": 0.622139888552
+    },
+    {
+      "epoch": 21,
+      "training_loss": 0.7572731622283267,
+      "validation_loss": 0.6021607293272918
+    },
+    {
+      "epoch": 22,
+      "training_loss": 0.740915938313592,
+      "validation_loss": 0.590533640024797
+    },
+    {
+      "epoch": 23,
+      "training_loss": 0.721158627583703,
+      "validation_loss": 0.5803300347530617
+    },
+    {
+      "epoch": 24,
+      "training_loss": 0.7065209373770225,
+      "validation_loss": 0.5909680302413005
+    },
+    {
+      "epoch": 25,
+      "training_loss": 0.6941560790324192,
+      "validation_loss": 0.5856356483023122
+    },
+    {
+      "epoch": 26,
+      "training_loss": 0.6781751044912835,
+      "validation_loss": 0.56153630282519
+    },
+    {
+      "epoch": 27,
+      "training_loss": 0.6655450013430034,
+      "validation_loss": 0.5513681038370672
+    },
+    {
+      "epoch": 28,
+      "training_loss": 0.6482470348095913,
+      "validation_loss": 0.585411363052872
+    },
+    {
+      "epoch": 29,
+      "training_loss": 0.6294213662356212,
+      "validation_loss": 0.559604285179444
+    },
+    {
+      "epoch": 30,
+      "training_loss": 0.6282925738666197,
+      "validation_loss": 0.5396018132286252
+    },
+    {
+      "epoch": 31,
+      "training_loss": 0.6092303879097608,
+      "validation_loss": 0.5361348269683011
+    },
+    {
+      "epoch": 32,
+      "training_loss": 0.5910943794063455,
+      "validation_loss": 0.5611304248560149
+    },
+    {
+      "epoch": 33,
+      "training_loss": 0.5868278460301809,
+      "validation_loss": 0.6070788266523829
+    },
+    {
+      "epoch": 34,
+      "training_loss": 0.5710732021379038,
+      "validation_loss": 0.571472334693063
+    },
+    {
+      "epoch": 35,
+      "training_loss": 0.5820975943501581,
+      "validation_loss": 0.5970294793259423
+    },
+    {
+      "epoch": 36,
+      "training_loss": 0.5630332780809663,
+      "validation_loss": 0.6146967472895136
+    },
+    {
+      "epoch": 37,
+      "training_loss": 0.5482849925633406,
+      "validation_loss": 0.562278078693264
+    },
+    {
+      "epoch": 38,
+      "training_loss": 0.527643820946124,
+      "validation_loss": 0.5638234424141219
+    },
+    {
+      "epoch": 39,
+      "training_loss": 0.5301153689844366,
+      "validation_loss": 0.5753062238108437
+    },
+    {
+      "epoch": 40,
+      "training_loss": 0.5273168468455655,
+      "validation_loss": 0.8494792029542743
+    },
+    {
+      "epoch": 41,
+      "training_loss": 0.5060123579005975,
+      "validation_loss": 0.5462837475088408
+    },
+    {
+      "epoch": 42,
+      "training_loss": 0.4961583892930942,
+      "validation_loss": 0.5544196164832925
+    },
+    {
+      "epoch": 43,
+      "training_loss": 0.4750205721370845,
+      "validation_loss": 0.5974295026851151
+    },
+    {
+      "epoch": 44,
+      "training_loss": 0.47841069136740844,
+      "validation_loss": 0.5738594485622532
+    },
+    {
+      "epoch": 45,
+      "training_loss": 0.48526060901133117,
+      "validation_loss": 0.5717749532382443
+    }
+  ],
+  "heads": {
+    "move": {
+      "decisions": 2363,
+      "option_rows": 32869
+    },
+    "target": {
+      "decisions": 931,
+      "option_rows": 4940
+    }
+  },
+  "threads": 1,
+  "device": "cpu",
+  "seed": 0,
+  "batch_size": 64,
+  "architecture": {
+    "width": 32,
+    "layers": 1,
+    "heads": 4
+  },
+  "encoder_version": "entity-attention-v2",
+  "training_seeds": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "validation_seeds": [
+    4,
+    5
+  ],
+  "training_rows": 2422,
+  "validation_rows": 1696,
+  "parameters": 21314,
+  "validation_agreement": {
+    "all": {
+      "rows": 1696,
+      "tile": 0.8472877358490566,
+      "target": 0.9976415094339622,
+      "whole": 0.8455188679245284
+    },
+    "footman": {
+      "rows": 772,
+      "tile": 0.905440414507772,
+      "target": 1.0,
+      "whole": 0.905440414507772
+    },
+    "archer": {
+      "rows": 661,
+      "tile": 0.7881996974281392,
+      "target": 0.9939485627836612,
+      "whole": 0.783661119515885
+    },
+    "cavalry": {
+      "rows": 263,
+      "tile": 0.8250950570342205,
+      "target": 1.0,
+      "whole": 0.8250950570342205
+    }
+  },
+  "random_choice_baseline": {
+    "tile": 0.13132619520693006,
+    "target": 0.8397169981486019,
+    "whole": 0.11849576970149898
+  },
+  "fit_seconds": 43.10391358402558,
+  "model_bytes": 103679,
+  "disagreements": [
+    {
+      "seed": 4,
+      "seat": 0,
+      "unit": "red_cavalry_5",
+      "unit_type": "cavalry",
+      "driver": "teacher",
+      "teacher": {
+        "tile_offset": [
+          3,
+          -2
+        ],
+        "path": 49,
+        "target": 20
+      },
+      "learner": {
+        "tile_offset": [
+          1,
+          -1
+        ],
+        "path": 1,
+        "target": 20
+      },
+      "file": "runs/season5-demonstrations.jsonl",
+      "line": 2423
+    },
+    {
+      "seed": 4,
+      "seat": 0,
+      "unit": "red_cavalry_2",
+      "unit_type": "cavalry",
+      "driver": "teacher",
+      "teacher": {
+        "tile_offset": [
+          -2,
+          3
+        ],
+        "path": 136,
+        "target": 0
+      },
+      "learner": {
+        "tile_offset": [
+          1,
+          3
+        ],
+        "path": 561,
+        "target": 0
+      },
+      "file": "runs/season5-demonstrations.jsonl",
+      "line": 2425
+    },
+    {
+      "seed": 4,
+      "seat": 0,
+      "unit": "red_archer_5",
+      "unit_type": "archer",
+      "driver": "teacher",
+      "teacher": {
+        "tile_offset": [
+          0,
+          2
+        ],
+        "path": 21,
+        "target": 18
+      },
+      "learner": {
+        "tile_offset": [
+          -2,
+          2
+        ],
+        "path": 28,
+        "target": 18
+      },
+      "file": "runs/season5-demonstrations.jsonl",
+      "line": 2426
+    },
+    {
+      "seed": 4,
+      "seat": 0,
+      "unit": "red_archer_0",
+      "unit_type": "archer",
+      "driver": "teacher",
+      "teacher": {
+        "tile_offset": [
+          0,
+          -2
+        ],
+        "path": 42,
+        "target": 0
+      },
+      "learner": {
+        "tile_offset": [
+          2,
+          -2
+        ],
+        "path": 7,
+        "target": 0
+      },
+      "file": "runs/season5-demonstrations.jsonl",
+      "line": 2428
+    },
+    {
+      "seed": 4,
+      "seat": 0,
+      "unit": "red_archer_4",
+      "unit_type": "archer",
+      "driver": "teacher",
+      "teacher": {
+        "tile_offset": [
+          0,
+          1
+        ],
+        "path": 3,
+        "target": 0
+      },
+      "learner": {
+        "tile_offset": [
+          1,
+          -1
+        ],
+        "path": 1,
+        "target": 0
+      },
+      "file": "runs/season5-demonstrations.jsonl",
+      "line": 2429
+    },
+    {
+      "seed": 4,
+      "seat": 0,
+      "unit": "red_cavalry_4",
+      "unit_type": "cavalry",
+      "driver": "teacher",
+      "teacher": {
+        "tile_offset": [
+          0,
+          4
+        ],
+        "path": 777,
+        "target": 0
+      },
+      "learner": {
+        "tile_offset": [
+          -3,
+          2
+        ],
+        "path": 178,
+        "target": 0
+      },
+      "file": "runs/season5-demonstrations.jsonl",
+      "line": 2430
+    },
+    {
+      "seed": 4,
+      "seat": 0,
+      "unit": "red_footman_1",
+      "unit_type": "footman",
+      "driver": "teacher",
+      "teacher": {
+        "tile_offset": [
+          2,
+          -2
+        ],
+        "path": 7,
+        "target": 0
+      },
+      "learner": {
+        "tile_offset": [
+          1,
+          -2
+        ],
+        "path": 12,
+        "target": 0
+      },
+      "file": "runs/season5-demonstrations.jsonl",
+      "line": 2436
+    },
+    {
+      "seed": 4,
+      "seat": 0,
+      "unit": "red_footman_4",
+      "unit_type": "footman",
+      "driver": "teacher",
+      "teacher": {
+        "tile_offset": [
+          1,
+          0
+        ],
+        "path": 2,
+        "target": 0
+      },
+      "learner": {
+        "tile_offset": [
+          0,
+          1
+        ],
+        "path": 3,
+        "target": 0
+      },
+      "file": "runs/season5-demonstrations.jsonl",
+      "line": 2438
+    },
+    {
+      "seed": 4,
+      "seat": 0,
+      "unit": "red_footman_3",
+      "unit_type": "footman",
+      "driver": "teacher",
+      "teacher": {
+        "tile_offset": [
+          0,
+          -1
+        ],
+        "path": 6,
+        "target": 0
+      },
+      "learner": {
+        "tile_offset": [
+          -1,
+          -1
+        ],
+        "path": 36,
+        "target": 0
+      },
+      "file": "runs/season5-demonstrations.jsonl",
+      "line": 2450
+    }
+  ]
+}

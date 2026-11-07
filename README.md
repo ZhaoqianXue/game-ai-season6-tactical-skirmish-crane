@@ -1,138 +1,54 @@
-# Skirmish at Crane Reach: Imitate Your Army
+# Season 5 — Tactical: The General
 
-In this example, a game AI agent you already have becomes the **teacher**, and a new agent, the **learner**, learns to imitate it. You record the teacher's choices for footmen, archers, and cavalry, train a small neural network on them with [PyTorch](https://pytorch.org/tutorials/beginner/basics/intro.html), and compare the two armies on new seeds. This approach is called **imitation learning**.
+**Zhaoqian Xue / purpleman / GitHub @ZhaoqianXue**
 
-This branch is a complete, runnable agent repository. It ships with a stand-in teacher, the **Banner** army from Season 4, and a learner already trained from it, so every command below works before you change anything. Start with the [Getting Started guide](https://vox-deorum.github.io/game-sandbox/students/getting-started/) if you have not set up a project before. Its [Optional: use PyTorch](https://vox-deorum.github.io/game-sandbox/students/getting-started/#optional-use-pytorch) section explains how PyTorch runs on the course server.
+## Design goal and submitted policy
 
-## Set up
+Make an army's jobs visible across three capture zones: take unoccupied ground, defend a held zone, and redirect support when local pressure changes. The submitted `agent.Agent` uses the authored policy in `general.py`; the independently trained imitation learner is retained in `learner_agent.py` and `imitation-policy.pt` for comparison.
 
-Create `.venv` and install the requirements, which already include PyTorch:
+Each unit begins with a squad preference based on its number within its unit type, distributing footmen, archers, and cavalry among the three zones. On every activation, zone cost combines distance, currently observed friendly/enemy occupancy, and the squad preference. Switching needs a three-point improvement; a sole visible defender stays. Footmen capture or form a shield wall, archers kite, supported cavalry charge, and injured units retreat. Chat reports actual changes in zone/job. No shared commander state or hidden enemy positions are read; a zone with no visible occupants is not known to be empty.
 
-```console
-python -m sandbox setup
-```
+Season 4 ranked sixth on automated results (30.39) and received 4.2/5 from five peers. Feedback found role changes hard to see at army scale. This revision replaces its first-zone focus with three-zone assignment and explicit zone/job reports, while preserving the useful retreat behavior. Its limits include incomplete local knowledge, straight-line threat estimates, and occasional role switching under changing visibility.
 
-Activate `.venv`. In PowerShell:
+**Rating question (1–5):** How clearly did the army spread across capture zones and change between contesting, defending, and retreating as the battle changed?
 
-```powershell
-.\.venv\Scripts\Activate.ps1
-```
+## Imitation experiment and decision
 
-On macOS or Linux:
+The official [imitation example](https://github.com/vox-deorum/game-agent-template/tree/examples/skirmish_crane/imitation) supplies the encoder, attention architecture, collector, trainer, and legal-action scoring. The revised three-zone policy supplied **4,118 demonstrations** from seeds 0–5, both seats, versus Naive. Seeds 0–3 supplied 2,422 training rows; 4–5 supplied 1,696 validation rows. All three unit types were included.
 
-```bash
-source .venv/bin/activate
-```
+Training used CPU, one thread, width 32, one layer, four heads, batch 64, initialization seed 0, and a 45-epoch cap. It took **43.10 seconds**, retained epoch 31, and produced **21,314 parameters**. Validation agreement was **84.73% for tiles**, **99.76% for targets from the teacher's tile**, and **84.55% for complete choices**. These are predictions on recorded states, not wins.
 
-If you cannot activate `.venv`, replace `python` with `.venv\Scripts\python.exe` on Windows or `.venv/bin/python` on macOS or Linux. Then run the checks:
+Complete new-seed episodes used seeds **100, 101, 102**, both seats:
 
-```console
+| Opponent | Authored teacher mean | Learned mean |
+|---|---:|---:|
+| Naive | 100.00 | 82.43 |
+| Preserved Season 4 policy | 77.60 | 58.46 |
+
+No agent failed or timed out. Against Naive, mean full `act()` time was 0.337 ms (teacher) versus 0.847 ms (learner); maximum observed calls were 24.09 and 38.30 ms. Against Season 4, maxima were 6.84 and 87.70 ms, below the 250 ms decision limit. These are local measurements, not guarantees about server latency. Raw episode and timing records are in `evidence/`.
+
+Against Season 4, the teacher's trace included presence in all three zones across the six matches and 84 changes of job or assigned zone. This does not mean each zone was continuously held. The learner's lower scores and missing explicit commitment memory favor submitting the authored policy. A high agreement rate did not establish strategic reliability.
+
+One inspected disagreement was seed 4, red cavalry 5: the teacher moved offset (3, -2), while the learner chose (1, -1), keeping the same target. The learner's tile was inside a zone but exposed to four immediate visible attackers versus three for the teacher. Agreement can conceal a tradeoff between capture and exposure; this one state does not explain every defeat.
+
+## Reproduce and checks
+
+Use Python 3.12 and the unchanged pinned requirements. `season.json` is the platform's downloaded Season 5 configuration.
+
+```sh
+python -m pip install -r requirements.txt -r requirements-dev.txt
 python -m sandbox test
-```
-
-Run every command from this folder.
-
-### Bring your own teacher
-
-The teacher is `teacher.py`, and Banner's helper `blocks.py` comes with it. To learn from your own agent instead:
-
-1. Copy your agent's `agent.py` into this folder as `teacher.py`, replacing Banner's.
-2. Copy its helper files and saved models too, replacing `blocks.py` if your agent has one. If another helper has the same name as a learner file, such as `encoder.py`, `routes.py`, or `imitation-policy.pt`, rename it and update the code that imports it.
-3. `season.json` holds the Season 4 settings Banner was built for. To use your own season's settings, follow **Set Up Locally** on **My Submissions**, which replaces it. The local [`environment.md`](environment.md) guide covers the actions, observations, and limits.
-4. Collect, train, and evaluate again, as described next.
-
-The teacher needs a constructor without arguments and the usual `reset(seed, observation)` and `act(observation)` methods. If its class in `teacher.py` has a name other than `Agent`, pass `--teacher teacher:MyAgent` to collection and evaluation.
-
-### What is in this folder
-
-- **The learner**, at the root: `agent.py`, `encoder.py`, `imitation_model.py`, and the trained model `imitation-policy.pt`. `routes.py` is a helper for the route-cost exercise in **Practice**; nothing imports it until you add that feature. `manifest.json` points at `agent.py`, so this folder is what you submit.
-- **The teacher**: `teacher.py` and its helpers. The learner never imports them.
-- **The experiment**, in `imitation/`: the scripts that collect, train, and evaluate. The learner never imports them either.
-- **The results**, in `runs/`: the scripts create this folder, and `.gitignore` keeps it out of your repository.
-
-## Run the experiment
-
-Collect demonstrations, train the learner, compare both agents on new seeds, then test and watch the learner:
-
-```console
-python -m imitation.experiment collect --episodes 10
-python -m imitation.train runs/demonstrations.jsonl
-python -m imitation.experiment evaluate --start 100 --episodes 3
-python -m sandbox test
+python -m imitation.experiment collect --episodes 6 --output runs/reproduced.jsonl
+python -m imitation.train runs/reproduced.jsonl --validation-seeds 4 5 --width 32 --layers 1 --heads 4 --epochs 45 --batch-size 64 --threads 1 --device cpu
+python -m imitation.experiment evaluate --start 100 --episodes 3 --output runs/reproduced-evaluation.json
+python compare.py
 python -m sandbox watch --seed 100
 ```
 
-**Collect.** For each of ten seeds, the teacher plays one match from each seat against Naive. Every unit activation adds one **demonstration** to `runs/demonstrations.jsonl`. Check the printed counts for all three unit types. If the teacher returns an invalid action or times out, collection stops without saving, so fix the problem and collect again. The `demonstration` function in `imitation/experiment.py` builds each line:
+`compare.py` compares both policies against the preserved Season 4 agent. The experiment helper accepts an optional opponent factory, and its learner entry now explicitly loads `learner_agent.Agent`. `baseline_s4.py` and `s4_blocks.py` preserve the prior implementation. Collection data in `runs/` is ignored; the trained checkpoint and reports are committed. Do not interpret the weak Naive benchmark as peer-competition performance.
 
-| Field | Contents |
-| --- | --- |
-| `entities` | One row of numbers for the acting unit, each visible ally or enemy, and each capture zone |
-| `move_options` | One row per reachable tile |
-| `target_options` | One row per possible target, measured from the teacher's tile |
-| `target_entity_indices` | Which enemy row each target names; `-1` means no target |
-| `move_choice`, `target_choice` | The teacher's chosen rows |
+## AI use and reflection
 
-**Train.** To check the learner on matches it never trained on, training holds out seeds 8 and 9 for validation. It stops after 15 epochs (passes through the data) without improving the validation loss, or at the `--epochs` limit of 200, and keeps the best model. It writes `imitation-policy.pt` and a report to `runs/imitation-policy.training.json`. `watch`, `eval`, and the tests all load `imitation-policy.pt`, so after training they play your new learner.
+This submission was developed with **OpenAI Codex**. Codex read the assignment and feedback, wrote the three-zone policy and comparison tooling, ran collection/training/evaluation, inspected a disagreement, and drafted this README. The official template supplied the underlying environment, tactical blocks, and imitation framework. Validation used project checks, complete held-out episodes on both seats, action-time measurements, and actual behavior traces. No sandbox, manifest, or dependency files were manually changed.
 
-`--width`, `--layers`, and `--heads` set the model's size. `--epochs`, `--batch-size`, `--threads`, `--device`, and `--seed` control the run. Training uses a GPU when PyTorch finds one (CUDA on an NVIDIA card, or MPS on a Mac), and the learner always plays on the CPU. For example:
-
-```console
-python -m imitation.train runs/demonstrations.jsonl --batch-size 32 --device cpu
-```
-
-**Evaluate.** Evaluation writes `runs/evaluation.json` for twelve matches: two agents, two seats, and three seeds. It records each army's scores, `act` times, and timeouts.
-
-Collection and evaluation refuse to overwrite a file, so give each new run its own `--output`. Training replaces its output, so pass `--output runs/revised.pt` to keep a revision. To play a revision, copy it to `imitation-policy.pt`, the file the learner loads and you submit.
-
-## Read the code
-
-Each core file holds one idea. We recommend opening them in this order:
-
-| File | Idea | Start with |
-| --- | --- | --- |
-| `imitation/experiment.py` | The teacher's actions become demonstrations | `demonstration` |
-| `agent.py` | The output: encode once, score tiles, then targets | `choose_action` |
-| `encoder.py` | What the learner sees | `ENTITY_FEATURES`, `encode_entities`, then `describe_move` |
-| `imitation_model.py` | How attention scores the options | `Policy.forward`, `score_moves`, `score_targets` |
-| `imitation/train.py` | The training loop and its report | `fit_model`, then `main` |
-
-To make sure collection and play read the same features, datasets and models record the encoder's `VERSION`, and training and the learner check that it matches. Give `VERSION` a new value whenever you change a feature.
-
-You can follow the experiment without the supporting files. `imitation/experiment_tools.py` runs matches and gives each unit its own teacher, and `imitation/train_tools.py` batches demonstrations and summarizes the report.
-
-## Practice
-
-Each exercise asks one design question. You can make the change yourself or describe it to a coding agent, then ask it which files it changed and why. To compare fairly, train each revision to its own `--output`, keep the validation seeds, and evaluate on the same seeds. If a change alters a feature, change `VERSION` and collect again with a new `--output`.
-
-1. **Find what the learner misses.** Open the `disagreements` in the training report. Each one names a seed, seat, and unit, with the teacher's tile and the learner's (`[1, 0]` means one step east). Watch that seed and seat, for example `python -m sandbox watch --seed 8 --seat 1`. What does the teacher consider that the features leave out?
-2. **Change what the model sees.** Add a route cost to each enemy's row with `route_cost` from `routes.py`, or remove a feature such as `weakest_enemy`. How do tile agreement by unit type and `act` time change?
-3. **Change what the model sends out.** Have the learner choose its target before its tile, or score each tile and target pair together. Compare tile, target, and whole-action agreement, then watch how cavalry strike.
-4. **Change the model's size.** Train with `--width 32 --layers 1`, the defaults (`--width 64 --layers 2`), and `--width 128 --layers 3`, keeping `--heads 4`. Compare parameters, training time, validation loss, agreement, and `act` time.
-5. **Change what the model learns.** Count a missed retreat more heavily than a missed step forward, or give credit for any tile as safe as the teacher's. Does agreement fall while the archers play better?
-6. **Correct the learner.** Save your first model and report as `runs/first.pt` and `runs/first.training.json`. Then let the learner play while the teacher supplies corrections, and retrain on both files:
-
-   ```console
-   python -m imitation.experiment collect --driver learner --output runs/corrections.jsonl
-   python -m imitation.train runs/demonstrations.jsonl runs/corrections.jsonl
-   python -m imitation.experiment evaluate --start 100 --episodes 3 --output runs/corrected.json
-   ```
-
-   Compare `teacher_driven` and `learner_driven` agreement in the new report, then compare both learners on new seeds.
-7. **Change the teacher.** In a second copy of this folder, train a learner from an earlier version of your agent. Then play the two learners against each other from both seats:
-
-   ```console
-   python -m sandbox eval --seeds 200 201 202 --seat 0 --vs ../second-folder
-   python -m sandbox eval --seeds 200 201 202 --seat 1 --vs ../second-folder
-   ```
-
-   Which of its teacher's choices did each learner keep?
-
-## Read the results
-
-- **Agreement.** Compare each unit type with `random_choice_baseline` in the report. The shipped learner, trained from Banner on seeds 0 to 9, picks Banner's tile 86.9% of the time on the validation seeds, against 9.6% for a random legal choice. Cavalry reach more tiles than footmen and agree less often. Target agreement is usually high because most decisions offer one or two targets. The report measures targets from the teacher's tile, so use evaluation to see the learner's own choices.
-- **Time.** Encoding the battlefield usually takes longer than running the network. Watch `act` time after adding a feature that runs a search, such as a route cost. The first `act` call of a match can be slower, so evaluation reports it separately.
-- **Seeds.** Keep a set of new seeds for the final comparison. If an evaluation shapes a revision, choose different seeds for the next one.
-
-## Submitting
-
-The learner submits like any other agent: follow the shared [submitting guide](https://vox-deorum.github.io/game-sandbox/students/submitting/). The course server provides its own copy of PyTorch, and `imitation-policy.pt` counts toward the season's size limit, so keep the model small. The server never runs the scripts in `imitation/`.
+The main lesson was that matching demonstrations is weaker evidence than completing new games. The small learner reproduced many actions, but its independent decisions scored worse and took longer than the rules. The submitted choice follows that measured result. Browser observations and final submission receipts are recorded separately; no claim is made that the student personally operated the tests.
