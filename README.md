@@ -35,6 +35,8 @@ One inspected disagreement was seed 4, red cavalry 5: the teacher moved offset (
 
 Use Python 3.12 and the unchanged pinned requirements. `season.json` is the platform's downloaded Season 5 configuration.
 
+Final project checks: **156 passed** in 47.19 seconds; `git diff --check` passed. The protected environment, manifest, and dependency files match the official starter.
+
 ```sh
 python -m pip install -r requirements.txt -r requirements-dev.txt
 python -m sandbox test

@@ -1,0 +1,17 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.12.14, pytest-8.3.4, pluggy-1.7.0
+rootdir: /Users/zhaoqianxue/Desktop/UA/GameAI/season5-tactical-skirmish-crane
+plugins: anyio-4.13.0
+collected 156 items
+
+tests/test_agent.py ..                                                   [  1%]
+tests/test_crane.py ..................................                   [ 23%]
+tests/test_dispatcher.py ................                                [ 33%]
+tests/test_episode.py ...                                                [ 35%]
+tests/test_imitation.py .........................                        [ 51%]
+tests/test_llm.py .............                                          [ 59%]
+tests/test_llm_example.py .......                                        [ 64%]
+tests/test_local_play_config.py .......................................  [ 89%]
+tests/test_season.py .................                                   [100%]
+
+============================= 156 passed in 47.19s =============================
