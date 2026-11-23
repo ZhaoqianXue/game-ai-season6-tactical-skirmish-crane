@@ -1,5 +1,5 @@
-"""Submit the authored General; the independently trained learner remains reproducible."""
-from general import Agent
+"""Submit the Season 6 Rivals policy."""
+from rivals import Agent
 
 
 def choose_action(model, observation):

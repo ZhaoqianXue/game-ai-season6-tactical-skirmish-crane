@@ -1,10 +1,11 @@
 {
   "env_id": "skirmish_crane",
-  "season": "Season 5: The General",
+  "season": "Season 6: The Rivals",
   "parameters": {
     "seat_plan": "army",
     "field_extent": 12,
     "terrain": true,
+    "wasteland": true,
     "unit_abilities": true,
     "capture_zones": 3
   }
